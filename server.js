@@ -105,10 +105,24 @@ app.post('/api/contacto', rateLimiter, async (req, res) => {
   }
 });
 
-// Serve static files
+// Serve static files with cache headers
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
   index: 'index.html',
+  setHeaders: (res, filePath) => {
+    // Cache images, fonts, and other assets for 1 year
+    if (filePath.match(/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+    // Cache CSS/JS for 1 year
+    if (filePath.match(/\.(css|js)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+    // HTML files: short cache, revalidate
+    if (filePath.match(/\.html$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
+    }
+  },
 }));
 
 // Handle clean URLs (trailing slash redirect)
