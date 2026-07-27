@@ -105,6 +105,11 @@ app.post('/api/contacto', rateLimiter, async (req, res) => {
   }
 });
 
+// Health check for Render
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // Serve static files with aggressive cache headers
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
