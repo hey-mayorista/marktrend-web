@@ -1,12 +1,35 @@
 const express = require('express');
 const path = require('path');
 const { Resend } = require('resend');
+const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Parse JSON bodies
 app.use(express.json({ limit: '50kb' }));
+
+// Force HTTPS (Render terminates SSL at proxy)
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] === 'http') {
+    return res.redirect(301, 'https://' + req.hostname + req.originalUrl);
+  }
+  next();
+});
+
+// Security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  next();
+});
+
+// Gzip/Brotli compression
+app.use(compression());
 
 // Rate limiting simple (en memoria — suficiente para un sitio de agencia)
 const rateMap = new Map();
@@ -139,7 +162,7 @@ app.all('*', (req, res) => {
   const filePath = path.join(__dirname, 'public', req.path, 'index.html');
   res.sendFile(filePath, err => {
     if (err) {
-      res.status(404).sendFile(path.join(__dirname, 'public', 'index.html'));
+      res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
     }
   });
 });
