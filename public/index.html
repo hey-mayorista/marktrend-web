@@ -29,7 +29,7 @@
 .showcase.active .card.selected .mini{height:120px}
 .hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--line);font-size:11px;font-weight:900;color:#71798a;z-index:20}
 @media(max-width:1150px){.hero{grid-template-columns:1fr}.showcase{height:760px}}
-@media(max-width:760px){html{scroll-padding-top:92px}body{padding-top:76px}.header{height:76px;padding:0 16px}.brand img{width:170px}.nav a:not(.cta){display:none}.hero{padding:28px 16px 46px}h1{font-size:50px}.showcase{height:500px;border-radius:30px;transition:height .42s cubic-bezier(.2,.8,.2,1)}.showcase.active{height:1040px}.core{top:170px;width:154px;height:154px}.core img{width:116px}.turno{left:16px;top:60px;width:150px}.stock{right:16px;top:70px;width:150px}.acomer{left:16px;top:260px;bottom:auto;width:150px}.custom{right:16px;top:270px;bottom:auto;width:150px}.mini{height:70px}.showcase.active .core{left:50%;top:190px}.showcase.active .card{left:16px!important;top:420px!important;width:calc(100% - 32px);transform:none!important}.showcase.active .card.selected{left:16px!important;top:420px!important;width:calc(100% - 32px);transform:none!important}.info{left:16px;right:16px;top:auto;bottom:16px;transform:translateY(20px);width:auto;min-height:auto}.info.open{transform:none}.hint{bottom:auto;top:370px}}
+@media(max-width:760px){html{scroll-padding-top:92px}body{padding-top:76px}.header{height:76px;padding:0 16px}.brand img{width:170px}.nav a:not(.cta){display:none}.nav-drop{display:none}.hero{padding:28px 16px 46px}h1{font-size:50px}.showcase{height:500px;border-radius:30px;transition:height .42s cubic-bezier(.2,.8,.2,1)}.showcase.active{height:1040px}.core{top:170px;width:154px;height:154px}.core img{width:116px}.turno{left:16px;top:60px;width:150px}.stock{right:16px;top:70px;width:150px}.acomer{left:16px;top:260px;bottom:auto;width:150px}.custom{right:16px;top:270px;bottom:auto;width:150px}.mini{height:70px}.showcase.active .core{left:50%;top:190px}.showcase.active .card{left:16px!important;top:420px!important;width:calc(100% - 32px);transform:none!important}.showcase.active .card.selected{left:16px!important;top:420px!important;width:calc(100% - 32px);transform:none!important}.info{left:16px;right:16px;top:auto;bottom:16px;transform:translateY(20px);width:auto;min-height:auto}.info.open{transform:none}.hint{bottom:auto;top:370px}}
 
 /* Paleta oficial MARK-TREND: aplicada sin modificar estructura ni funcionamiento */
 :root{
@@ -344,7 +344,7 @@ h1 .soft{color:var(--orange)}
 @media(max-width:760px){.overload-stage{min-height:690px;border-radius:30px}.overload-intro{top:26px}.overload-intro h2{font-size:38px}.merchant{top:57%;transform:translate(-50%,-50%) scale(.86)}.burden{font-size:10px;padding:7px 10px}.solution-reveal{padding:20px}.solution-card{padding:34px 22px;border-radius:27px}.solution-brand{gap:12px}.solution-brand img{width:170px}.solution-check{width:44px;height:44px;font-size:23px}.solution-card h2{font-size:44px}.solution-actions{display:grid;grid-template-columns:1fr}.replay-overload{right:12px;bottom:12px}}
 @media(prefers-reduced-motion:reduce){.burden,.merchant,.solution-check{animation:none!important}.overload-stage .merchant-scene,.overload-stage .overload-intro{display:none}.overload-stage .solution-reveal{opacity:1;pointer-events:auto;transform:none}}
 
-</style>
+.nav-drop{position:relative}.nav-drop>a{cursor:pointer}.nav-drop .drop-menu{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:200px;padding:10px 0;margin-top:12px;background:rgba(255,255,255,.98);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(17,24,39,.12);z-index:1100;backdrop-filter:blur(12px)}.nav-drop:hover .drop-menu,.nav-drop .drop-menu:hover{display:block}.drop-menu a{display:block;padding:10px 20px;font-size:13px;font-weight:800;color:#50596a;white-space:nowrap;transition:background .2s,color .2s}.drop-menu a:hover{background:var(--violetSoft);color:var(--violet)}</style>
 <meta name="description" content="MARK-TREND desarrolla sistemas digitales para negocios reales en Argentina: turnos online, pedidos gastronómicos, stock y punto de venta, CRM con WhatsApp IA.">
 <link rel="canonical" href="https://marktrend.com.ar/">
 <meta property="og:type" content="website">
@@ -427,8 +427,8 @@ h1 .soft{color:var(--orange)}
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-<header class="header"><a class="brand" href="https://marktrend.com.ar/"><img src="/images/logo-marktrend.webp" alt="MARK-TREND"></a><nav class="nav"><a href="#ecosistema">Productos</a><a href="#ecosistema" data-open-card="custom">Servicios</a><a href="#proceso">Proceso</a><a href="https://marktrend.com.ar/biblioteca">Biblioteca</a><a href="https://marktrend.com.ar/faq">Preguntas</a><a class="cta" href="https://marktrend.com.ar/contacto">Hablemos →</a></nav></header>
-<main class="hero"><section><div class="kicker"><i></i><span>Tecnología pensada desde el comercio real</span></div><h1><span>Conocemos los problemas</span><span>De tener un negocio.</span><span class="violet-line">Creamos tecnología</span><span class="soft">Para resolverlos.</span></h1><p class="lead">20 años de experiencia en el comercio real aplicados a ordenar procesos, reducir tareas manuales y hacer que los negocios trabajen mejor.</p><div class="actions"><a class="btn primary" href="https://wa.me/5491123729361?text=Hola%20Mark%20Trend.%20Quiero%20contarles%20sobre%20mi%20negocio." target="_blank" rel="noopener">Escribinos por WhatsApp</a><a class="btn secondary" href="#ecosistema">Ver productos ↓</a></div></section>
+<header class="header"><a class="brand" href="https://marktrend.com.ar/"><img src="/images/logo-marktrend.webp" alt="MARK-TREND"></a><nav class="nav"><div class="nav-drop"><a href="#ecosistema">Servicios</a><div class="drop-menu"><a href="#ecosistema" data-open-card="acomer">A Comer!</a><a href="#ecosistema" data-open-card="stock">MT Stock</a><a href="#ecosistema" data-open-card="turno">Turno Rápido</a><a href="#ecosistema" data-open-card="custom">Soluciones a medida</a></div></div><a href="#proceso">Proceso</a><a href="https://marktrend.com.ar/biblioteca">Biblioteca</a><a href="https://marktrend.com.ar/faq">Preguntas</a><a class="cta" href="https://marktrend.com.ar/contacto">Hablemos →</a></nav></header>
+<main class="hero"><section><div class="kicker"><i></i><span>Tecnología pensada desde el comercio real</span></div><h1><span>Conocemos los problemas</span><span>De tener un negocio.</span><span class="violet-line">Creamos tecnología</span><span class="soft">Para resolverlos.</span></h1><p class="lead">20 años de experiencia en el comercio real aplicados a ordenar procesos, reducir tareas manuales y hacer que los negocios trabajen mejor.</p><div class="actions"><a class="btn primary" href="https://wa.me/5491123729361?text=Hola%20Mark%20Trend.%20Quiero%20contarles%20sobre%20mi%20negocio." target="_blank" rel="noopener">Escribinos por WhatsApp</a><a class="btn secondary" href="#ecosistema">Ver servicios ↓</a></div></section>
 <section class="showcase" id="ecosistema"><div class="core"><img src="/images/logo-marktrend.webp" alt="MARK-TREND"><small>tecnología para negocios reales</small></div>
 <button class="card turno" data-key="turno"><div class="head"><span class="icon">◫</span><strong>Turno Rápido</strong></div><div class="mini shot turno-shot"><img src="/images/vista-turno-rapido.webp" loading="lazy" alt="Vista de Turno Rápido"></div><span class="tag">turnos 24/7</span></button>
 <button class="card stock" data-key="stock"><div class="head"><span class="icon">▣</span><strong>MT Stock</strong></div><div class="mini shot stock-shot"><img src="/images/vista-mt-stock.webp" loading="lazy" alt="Vista de MT Stock"></div><span class="tag">stock + POS</span></button>
@@ -615,11 +615,13 @@ document.querySelectorAll('[data-open-card]').forEach(link=>{
 
 // Permite abrir la tarjeta de Soluciones a medida desde páginas internas.
 const requestedCard=new URLSearchParams(window.location.search).get('abrir');
-if(requestedCard==='soluciones'){
+if(requestedCard){
+  const cardMap={soluciones:'custom',acomer:'acomer',stock:'stock',turno:'turno',custom:'custom'};
+  const key=cardMap[requestedCard]||requestedCard;
   window.addEventListener('load',()=>{
     const target=document.getElementById('ecosistema');
     if(target) target.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(()=>openCard('custom'),650);
+    setTimeout(()=>openCard(key),650);
   },{once:true});
 }
 
@@ -779,7 +781,7 @@ if(experienceCounterWrap) experienceObserver.observe(experienceCounterWrap);
     </div>
     <div class="footer-column">
       <h3>Navegación</h3>
-      <a href="#ecosistema">Soluciones</a>
+      <a href="#ecosistema">Servicios</a>
       <a href="#problemas">Problemas reales</a>
       <a href="#proceso">Cómo trabajamos</a>
       <a href="#experiencia">Experiencia</a>
