@@ -105,28 +105,26 @@ app.post('/api/contacto', rateLimiter, async (req, res) => {
   }
 });
 
-// Serve static files with cache headers
+// Serve static files with aggressive cache headers
 app.use(express.static(path.join(__dirname, 'public'), {
   extensions: ['html'],
   index: 'index.html',
+  maxAge: '31536000000',
+  immutable: true,
   setHeaders: (res, filePath) => {
-    // Cache images, fonts, and other assets for 1 year
-    if (filePath.match(/\.(webp|png|jpg|jpeg|gif|svg|ico|woff2?|ttf|eot)$/)) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    }
-    // Cache CSS/JS for 1 year
-    if (filePath.match(/\.(css|js)$/)) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    }
-    // HTML files: short cache, revalidate
+    // HTML files: short cache, revalidate (override maxAge for HTML)
     if (filePath.match(/\.html$/)) {
       res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
     }
   },
 }));
 
-// Handle clean URLs (trailing slash redirect)
-app.get('*', (req, res) => {
+// Handle clean URLs — use app.all to support both GET and HEAD
+app.all('*', (req, res) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    return res.status(405).end();
+  }
+  
   // Remove trailing slash if present (except root)
   if (req.path.length > 1 && req.path.endsWith('/')) {
     return res.redirect(301, req.path.slice(0, -1));
