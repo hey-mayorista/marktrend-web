@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MT Stock es un sistema de stock y punto de venta conectado con Tiendanube. Vendé online y en tu local con el inventario sincronizado." />
+  <title>MT Stock + Tiendanube — Stock y punto de venta</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <style>
+:root{
+  --paper:#fbfaf8;
+  --paper-2:#f5f3f7;
+  --ink:#172033;
+  --muted:#667085;
+  --violet:#7657e8;
+  --violet-deep:#4f34bb;
+  --lilac:#eee9ff;
+  --orange:#f37b3f;
+  --cream:#fff0e6;
+  --line:rgba(23,32,51,.13);
+  --shadow:0 25px 80px rgba(40,33,83,.12);
+  --serif:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button,a{font:inherit}
+button{cursor:pointer}
+.page-noise{position:fixed;inset:0;pointer-events:none;opacity:.17;z-index:100;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.06'/%3E%3C/svg%3E")}
+.site-header{position:fixed;top:0;left:0;right:0;height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(24px,5vw,80px);z-index:50;background:rgba(251,250,248,.76);backdrop-filter:blur(18px);border-bottom:1px solid rgba(23,32,51,.06)}
+.brand img{display:block;width:210px;max-height:46px;object-fit:contain;object-position:left center}
+.desktop-nav{display:flex;gap:32px;font-size:14px;font-weight:700;text-transform:lowercase}
+.desktop-nav a{opacity:.72;transition:.25s}
+.desktop-nav a:hover{opacity:1}
+.header-actions{display:flex;align-items:center;gap:14px}
+.link-button{font-size:14px;font-weight:700;padding:12px 8px;text-transform:lowercase}
+.solid-button,.outline-button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 25px;border-radius:999px;border:1px solid transparent;font-weight:800;transition:transform .2s,box-shadow .2s,background .2s}
+.solid-button{background:var(--violet);color:white;box-shadow:0 12px 30px rgba(118,87,232,.22)}
+.solid-button:hover,.outline-button:hover{transform:translateY(-2px)}
+.solid-button.small{min-height:44px;padding:0 20px;font-size:14px}
+.outline-button{border-color:rgba(118,87,232,.45);color:var(--violet-deep);background:rgba(255,255,255,.55)}
+.text-link{font-size:15px;font-weight:700;display:inline-flex;gap:8px;align-items:center;text-transform:lowercase}
+.menu-button{display:none;border:0;background:transparent;font-weight:700;text-transform:lowercase}
+.mobile-menu{position:fixed;top:86px;left:16px;right:16px;z-index:60;padding:22px;background:white;border-radius:20px;box-shadow:var(--shadow)}
+.mobile-menu a{display:block;padding:12px 0;border-bottom:1px solid var(--line);text-transform:lowercase}
+.scene{position:relative;padding-inline:clamp(24px,6vw,96px)}
+.eyebrow{letter-spacing:.06em;font-size:12px;font-weight:750;color:var(--violet);margin:0 0 22px;text-transform:lowercase}
+.eyebrow.muted{color:#8a779f}
+.hero-partners{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:28px}.partner-badge{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 18px;border:1px solid rgba(23,32,51,.08);background:rgba(255,255,255,.82);border-radius:20px;box-shadow:0 12px 30px rgba(23,32,51,.06);min-height:66px}.partner-badge-mt{padding-right:20px}.partner-badge-tn{padding-inline:18px}.partner-logo-mt{height:38px;width:auto;display:block;max-width:190px;object-fit:contain}.partner-logo-tn{height:38px;width:auto;display:block;max-width:190px;object-fit:contain}.partner-caption{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:lowercase;color:var(--violet)}.partner-connector{font-size:30px;font-weight:800;line-height:1;color:var(--ink);display:flex;align-items:center;justify-content:center;min-width:24px}
+.hero{min-height:100svh;padding-top:150px;padding-bottom:70px;display:grid;grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr);gap:5vw;align-items:center}
+.hero-copy{position:relative;z-index:2;max-width:710px}
+.hero-title{margin:0;font-family:var(--serif);font-size:clamp(54px,6.4vw,104px);line-height:.9;letter-spacing:-.06em;font-weight:800;text-transform:lowercase}
+.hero-title .line{display:block}
+.hero-title em{font-weight:800;color:var(--orange);font-style:normal}
+.hero-title strong{font-weight:800;color:var(--violet)}
+.hero-lead{font-size:clamp(18px,1.4vw,24px);line-height:1.5;color:var(--muted);max-width:610px;margin:36px 0 0}
+.hero-actions{display:flex;gap:24px;align-items:center;margin-top:34px;flex-wrap:wrap}
+.hero-stage{position:relative;min-height:650px;display:grid;place-items:center;isolation:isolate}
+.soft-orbit{position:absolute;border-radius:50%;filter:blur(2px);z-index:-1}
+.orbit-one{width:610px;height:610px;background:radial-gradient(circle at 35% 35%,rgba(238,233,255,.9),rgba(238,233,255,.1) 66%,transparent 72%)}
+.orbit-two{width:480px;height:480px;right:-80px;bottom:-50px;background:radial-gradient(circle at 50% 50%,rgba(255,240,230,.95),transparent 70%)}
+.product-window{background:white;border:1px solid rgba(23,32,51,.09);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}
+.hero-window{width:min(760px,95%);transform:rotate(1.2deg);position:relative;z-index:2}
+.hero-window img{width:100%;display:block}
+.window-bar{height:38px;display:flex;align-items:center;gap:7px;padding:0 15px;border-bottom:1px solid var(--line);background:#fbfbfd}
+.window-bar span{width:8px;height:8px;border-radius:50%;background:#d7d4df}
+.window-bar small{margin-left:auto;margin-right:auto;color:#9b96a4;font-size:10px}
+.stock-chip{position:absolute;z-index:4;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 20px 55px rgba(28,24,55,.14);border-radius:18px;padding:16px 19px;display:grid;grid-template-columns:auto auto;column-gap:18px;min-width:174px}
+.stock-chip span{font-size:11px;letter-spacing:.12em;font-weight:800;color:var(--muted)}
+.stock-chip b{font-family:var(--serif);font-size:40px;line-height:.8;grid-row:1/3;grid-column:2;align-self:center;font-weight:800}
+.stock-chip small{font-size:11px;color:var(--muted);margin-top:7px}
+.old-stock{left:3%;top:18%}.new-stock{right:1%;bottom:17%}.new-stock b{color:var(--violet)}
+.sync-badge{position:absolute;left:50%;bottom:3%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.96);border:1px solid rgba(23,32,51,.08);box-shadow:0 16px 40px rgba(23,32,51,.12);color:var(--ink)}.sync-badge .sync-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(118,87,232,.12);color:var(--violet);font-size:16px;animation:spinsoft 3.2s linear infinite}.sync-badge .sync-copy{display:flex;flex-direction:column;line-height:1.05}.sync-badge .sync-title{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:lowercase;color:var(--ink)}.sync-badge .sync-sub{font-size:11px;color:#7b7690}.sync-badge .sync-dot{width:8px;height:8px;border-radius:50%;background:#42a267;box-shadow:0 0 0 6px rgba(66,162,103,.12)}@keyframes spinsoft{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;gap:12px;align-items:center}
+.scroll-cue span{width:28px;height:1px;background:var(--ink)}
+.reveal{opacity:0;transform:translateY(32px);animation:reveal .8s cubic-bezier(.2,.7,.2,1) forwards}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.45s}.reveal-right{opacity:0;transform:translateX(45px) rotate(1.2deg);animation:revealRight 1s .25s cubic-bezier(.2,.7,.2,1) forwards}
+.pain{min-height:160vh;background:var(--ink);color:white;padding-top:12vh;padding-bottom:12vh}
+.pain-sticky{position:sticky;top:15vh;max-width:1100px;margin:0 auto;text-align:center}
+.pain h2{font-family:var(--serif);font-size:clamp(56px,7.5vw,118px);line-height:.92;letter-spacing:-.06em;font-weight:800;margin:0;text-transform:lowercase}
+.pain h2 span{display:block;color:#c8bfff}.pain-note{max-width:600px;margin:34px auto;color:#b7bdc8;font-size:20px;line-height:1.5}
+.divergence{display:grid;grid-template-columns:1fr 180px 1fr;align-items:center;max-width:760px;margin:60px auto 28px}.line-status{display:grid;justify-items:center;gap:18px}.channel-card{border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:24px;background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center}.channel-card span{font-size:10px;letter-spacing:.18em;color:#b8bdc8}.channel-card b{font-family:var(--serif);font-size:70px;font-weight:800;margin-top:10px}.channel-card small{color:#9fa6b2}.broken-line{position:relative;display:flex;justify-content:center;align-items:center;gap:12px;min-height:24px;transition:all .45s ease;width:114px}.broken-line::after{content:"";position:absolute;left:0;right:0;top:50%;height:3px;background:#42a267;border-radius:999px;transform:translateY(-50%) scaleX(.25);opacity:0;transition:transform .42s ease,opacity .32s ease}.broken-line i{width:26px;height:2px;background:#746d83;border-radius:999px;transition:transform .45s ease,background .35s ease,opacity .28s ease}.broken-line i:nth-child(2){transform:translateY(10px) rotate(-22deg);background:var(--orange)}.broken-line.connected{gap:0}.broken-line.connected i{opacity:0}.broken-line.connected::after{opacity:1;transform:translateY(-50%) scaleX(1)}.link-check{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:999px;background:rgba(66,162,103,.14);border:1px solid rgba(66,162,103,.28);color:#8fd3a7;opacity:0;transform:translateY(8px) scale(.96);transition:all .35s ease;pointer-events:none}.link-check.visible{opacity:1;transform:none}.check-icon{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#42a267;color:white;font-weight:900;font-size:14px}.check-text{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:lowercase}.demo-button{border:1px solid rgba(255,255,255,.28);color:white;background:transparent;border-radius:999px;padding:14px 20px;font-weight:750}.demo-button:hover{background:white;color:var(--ink)}.demo-caption{color:#9fa6b2;font-size:13px;min-height:20px}
+.bridge{min-height:115vh;padding-top:150px;padding-bottom:150px;display:grid;grid-template-columns:.8fr 1.2fr;gap:8vw;align-items:center}
+.bridge h2,.offline h2,.product-story h2,.pricing h2,.support h2,.final-cta h2{font-family:var(--serif);font-size:clamp(46px,5.4vw,88px);line-height:.96;letter-spacing:-.055em;font-weight:800;margin:0;text-transform:lowercase}.bridge h2 em,.offline h2 span,.product-story h2 span,.pricing h2 span,.support h2 span{font-weight:800;color:var(--violet);font-style:normal}
+.bridge-copy>p:not(.eyebrow){font-size:20px;line-height:1.55;color:var(--muted);max-width:560px;margin:28px 0}.clean-list{list-style:none;padding:0;margin:36px 0 0}.clean-list li{padding:14px 0;border-bottom:1px solid var(--line);font-weight:700}
+.bridge-visual{position:relative;display:grid;gap:38px}.flow-row{display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:15px}.flow-node{font-size:10px;font-weight:850;letter-spacing:.08em;border:1px solid var(--line);background:white;border-radius:999px;padding:13px 16px;text-transform:lowercase}.flow-core{width:90px;height:90px;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--violet);color:white;font-weight:900;box-shadow:0 18px 40px rgba(118,87,232,.24)}.flow-track{height:2px;background:#ded9ef;overflow:hidden;position:relative}.flow-track span{position:absolute;width:50px;height:2px;background:var(--orange);animation:flow 2.2s infinite}.reverse span{animation-direction:reverse}.tn-window{width:min(490px,100%);justify-self:center;padding:16px}.tn-window img{width:100%;display:block;border-radius:14px}
+.offline{min-height:110vh;background:var(--cream);padding-top:150px;padding-bottom:150px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8vw}.offline-content>p:not(.eyebrow){font-size:21px;color:#775f54;line-height:1.55;max-width:580px}.offline-actions{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:35px}.offline-status{display:flex;align-items:center;gap:8px;font-weight:800;color:#426750}.offline-status i{width:10px;height:10px;border-radius:50%;background:#38a169;box-shadow:0 0 0 6px rgba(56,161,105,.13)}.offline-status.off i{background:#e34d59;box-shadow:0 0 0 6px rgba(227,77,89,.13)}.offline-status.off{color:#9d2d3a}.offline-demo{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:center}.sale-ticket,.queue-card{background:white;border-radius:26px;border:1px solid rgba(117,77,54,.12);box-shadow:0 25px 70px rgba(117,77,54,.1);padding:28px}.sale-ticket{display:flex;flex-direction:column;gap:13px;transform:rotate(-3deg)}.sale-ticket small,.queue-kicker{font-size:10px;letter-spacing:.16em;font-weight:850;color:#8c7a71}.sale-ticket strong{font-family:var(--serif);font-size:40px;font-weight:800}.sale-ticket span{color:var(--muted)}.sale-ticket button{height:48px;border:0;border-radius:14px;color:white;background:var(--ink);font-weight:800}.queue-card strong{display:block;font-size:22px;margin:12px 0}.queue-card p{color:var(--muted);margin-bottom:22px}.queue-progress{height:7px;background:#eee9e6;border-radius:20px;overflow:hidden}.queue-progress span{display:block;width:100%;height:100%;background:#42a267;transition:width 1s,background .3s}.queue-card.pending .queue-progress span{width:38%;background:var(--orange)}
+.product-story{padding-top:150px;padding-bottom:170px}.product-story-header{max-width:1080px;margin-bottom:90px}.product-showcase{display:grid;grid-template-columns:.75fr 1.25fr;gap:7vw;align-items:start}.showcase-copy{display:flex;flex-direction:column}.feature-step{padding:28px 0;border-top:1px solid var(--line);opacity:.35;transition:.3s;cursor:pointer}.feature-step:last-child{border-bottom:1px solid var(--line)}.feature-step.active{opacity:1}.feature-step span{font-size:11px;color:var(--violet);font-weight:900}.feature-step h3{font-family:var(--serif);font-size:32px;font-weight:800;margin:8px 0 10px;text-transform:lowercase}.feature-step p{margin:0;color:var(--muted);line-height:1.55}.showcase-screen{position:sticky;top:130px;min-height:600px;display:grid;place-items:center;background:linear-gradient(145deg,#f9f7ff,#fff)}.showcase-screen img{max-width:90%;max-height:650px;object-fit:contain;transition:opacity .25s,transform .25s}
+.audience{padding-top:150px;padding-bottom:150px;background:var(--lilac);overflow:hidden}.audience-title{max-width:1180px;font-family:var(--serif)}.audience-title-row{display:block;font-size:clamp(58px,7.2vw,108px);line-height:.92;letter-spacing:-.06em;font-weight:800;text-transform:lowercase}.audience-title-row span{display:block}.audience-title-row span:nth-child(2){color:var(--violet)}.audience-title-subrow{margin-top:.22em;font-size:clamp(42px,5vw,74px);line-height:1;letter-spacing:-.05em;font-weight:800;text-transform:lowercase}.audience-foot{max-width:900px;font-size:20px;line-height:1.55;color:#5e5574;margin-top:55px}
+.pricing{padding-top:150px;padding-bottom:150px}.pricing-intro{max-width:1000px}.pricing-intro>p:not(.eyebrow){font-size:20px;color:var(--muted)}.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1050px;margin:80px auto 0}.plan-card{position:relative;border:1px solid var(--line);border-radius:30px;padding:42px;background:rgba(255,255,255,.6)}.plan-card.featured{border-color:rgba(118,87,232,.55);box-shadow:0 30px 90px rgba(118,87,232,.11)}.featured-label{position:absolute;right:26px;top:26px;font-size:10px;letter-spacing:.08em;font-weight:900;color:var(--violet);text-transform:lowercase}.plan-name{font-size:11px;letter-spacing:.08em;font-weight:900;text-transform:lowercase}.promo-kicker{color:var(--violet);font-weight:800;font-size:15px;margin:18px 0 8px}.price{display:flex;align-items:baseline;gap:10px}.price b{font-family:var(--serif);font-size:56px;font-weight:800}.price span{color:var(--muted)}.promo-secondary{color:var(--muted);font-size:18px;margin-top:10px}.plan-card ul{list-style:none;padding:0;margin:30px 0}.plan-card li{padding:9px 0;border-bottom:1px solid rgba(23,32,51,.08)}.plan-card li:before{content:"✓";color:var(--violet);margin-right:10px;font-weight:900}.plan-card>a{width:100%;margin-top:15px}.trial-note{text-align:center;color:var(--muted);font-weight:700;margin-top:30px}
+.support{padding-top:150px;padding-bottom:150px;background:#f0f4f7}.support>div:first-child{max-width:1100px}.support-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:70px}.support-grid article{background:white;border:1px solid rgba(23,32,51,.08);border-radius:20px;padding:28px;display:flex;flex-direction:column;align-items:flex-start;gap:16px}.support-icon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;border:1px solid rgba(23,32,51,.08);background:#f7f8fb;color:var(--ink);box-shadow:0 10px 24px rgba(23,32,51,.05)}.support-icon svg{width:28px;height:28px;display:block}.zoom-icon{background:#eef4ff;color:#2d6df6}.zoom-icon svg{width:40px;height:16px}.anydesk-icon{background:#fff2f0;color:#e14f3d}.anydesk-icon svg{width:42px;height:18px}.schedule-icon{background:#f3efff;color:var(--violet)}.phone-icon{background:#fff3ea;color:var(--orange)}.support-grid strong{display:block;margin:0;font-size:28px;letter-spacing:-.04em;line-height:1;font-weight:800}.support-grid span{color:var(--muted);line-height:1.45;font-size:18px}
+.final-cta{min-height:85vh;padding-top:150px;padding-bottom:100px;display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;background:linear-gradient(180deg,var(--paper),#eee9ff)}.final-cta h2 em{font-weight:800;color:var(--orange);font-style:normal}.final-subcopy{max-width:760px;margin:26px auto 0;font-size:22px;line-height:1.45;color:var(--muted);font-weight:700}.final-subcopy .tension-phrase{color:var(--ink);font-weight:850}.final-actions{display:flex;gap:18px;margin:50px 0;flex-wrap:wrap;justify-content:center}.large{min-height:60px;padding:0 32px}.final-cta small{color:var(--muted)}
+footer{min-height:120px;padding:30px clamp(24px,6vw,96px);display:flex;align-items:center;gap:30px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}footer img{width:170px}footer a{margin-left:auto;color:var(--ink);font-weight:800}
+@keyframes reveal{to{opacity:1;transform:none}}@keyframes revealRight{to{opacity:1;transform:rotate(1.2deg)}}@keyframes pulse{50%{box-shadow:0 0 0 25px rgba(118,87,232,0)}}@keyframes flow{from{left:-50px}to{left:100%}}
+@media(max-width:1050px){.desktop-nav{display:none}.menu-button{display:block}.header-actions .link-button{display:none}.hero{grid-template-columns:1fr;padding-top:150px}.hero-copy{max-width:800px}.hero-stage{min-height:540px}.bridge,.offline,.product-showcase{grid-template-columns:1fr}.bridge-visual{margin-top:40px}.product-showcase{gap:50px}.showcase-screen{position:relative;top:auto}.support-grid{grid-template-columns:1fr 1fr}.audience-title-row{display:block}.audience-title-row span{display:block}.audience-title-subrow{margin-top:.3em}.plan-grid{max-width:760px}}
+@media(max-width:700px){.site-header{height:72px;padding-inline:18px}.brand img{width:155px}.header-actions .solid-button{display:none}.mobile-menu{top:72px}.scene{padding-inline:20px}.hero{padding-top:115px;min-height:auto}.hero-title{font-size:57px}.hero-lead{font-size:18px}.hero-stage{min-height:400px;margin-top:50px}.hero-window{width:100%}.stock-chip{transform:scale(.72)}.old-stock{left:-9%;top:8%}.new-stock{right:-8%;bottom:8%}.sync-badge{bottom:6%;padding:9px 12px}.sync-badge .sync-icon{width:28px;height:28px}.sync-badge .sync-title,.sync-badge .sync-sub{font-size:10px}.scroll-cue{display:none}.pain{min-height:130vh}.pain-sticky{top:12vh}.pain h2{font-size:56px}.divergence{grid-template-columns:1fr 70px 1fr;margin-top:45px}.line-status{gap:10px}.broken-line{gap:6px;width:64px}.broken-line i{width:14px}.check-text{display:none}.channel-card{padding:15px}.channel-card b{font-size:50px}.bridge,.offline,.product-story,.pricing,.support{padding-top:100px;padding-bottom:100px}.bridge h2,.offline h2,.product-story h2,.pricing h2,.support h2,.final-cta h2{font-size:49px}.flow-row{grid-template-columns:auto 35px auto 35px auto;gap:8px}.flow-node{padding:10px;font-size:8px}.flow-core{width:64px;height:64px;font-size:12px}.offline-demo{grid-template-columns:1fr}.sale-ticket{width:75%;margin:auto}.product-story-header{margin-bottom:50px}.showcase-screen{min-height:430px}.showcase-screen img{max-width:96%;max-height:430px}.audience-title-row{font-size:58px}.audience-title-subrow{font-size:38px}.plan-grid{grid-template-columns:1fr;margin-top:50px}.plan-card{padding:30px}.price b{font-size:47px}.support-grid{grid-template-columns:1fr}.support-icon{width:48px;height:48px}.support-grid strong{font-size:24px}.support-grid span{font-size:17px}.final-cta{min-height:75vh}.final-actions{flex-direction:column;width:100%}.final-actions a{width:100%}footer{flex-direction:column;align-items:flex-start}footer a{margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+</style>
+
+<style id="mt-stock-identity-final">
+:root{
+  --paper:#ffffff;
+  --paper-2:#f5f9ff;
+  --ink:#101a32;
+  --navy:#101a32;
+  --navy-2:#172746;
+  --muted:#61708b;
+  --violet:#31aef2;
+  --violet-deep:#087dcc;
+  --lilac:#eaf6ff;
+  --orange:#ff7a1a;
+  --cream:#f1f8ff;
+  --line:rgba(16,26,50,.12);
+  --shadow:0 28px 90px rgba(16,26,50,.12);
+}
+body{background:#fff;color:var(--navy)}
+.page-noise{opacity:.07}
+.site-header{height:92px;background:rgba(255,255,255,.91);border-bottom:1px solid rgba(16,26,50,.08);box-shadow:0 8px 30px rgba(16,26,50,.035)}
+.brand-suite{display:flex;align-items:center;gap:15px;min-width:320px}
+.brand-suite img{display:block;object-fit:contain}
+.brand-mt{width:58px;height:58px;border-radius:13px;box-shadow:0 8px 22px rgba(16,26,50,.12)}
+.brand-plus{font-size:28px;font-weight:700;color:var(--navy);line-height:1}
+.brand-tn{width:185px;height:46px;object-position:left center}
+.desktop-nav{color:var(--navy);gap:36px}
+.desktop-nav a{opacity:.74}
+.link-button{color:var(--navy)}
+.solid-button{background:var(--navy);color:#fff;box-shadow:0 14px 34px rgba(16,26,50,.18);border-radius:14px}
+.solid-button:hover{background:#172746;box-shadow:0 18px 44px rgba(16,26,50,.22)}
+.outline-button{border-color:rgba(16,26,50,.34);color:var(--navy);background:rgba(255,255,255,.82);border-radius:14px}
+.outline-button:hover{border-color:var(--sky,#31aef2);background:#f5fbff}
+.eyebrow{color:#087dcc;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+.eyebrow:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--orange);margin-right:9px;vertical-align:1px}
+.eyebrow.muted{color:#75a8cc}
+.integration-kicker{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(49,174,242,.48);background:#fff;border-radius:999px;padding:9px 14px;color:#087dcc;font-size:11px;font-weight:900;letter-spacing:.12em}
+.integration-kicker i{width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.hero{padding-top:158px;background:radial-gradient(circle at 72% 38%,rgba(49,174,242,.10),transparent 30%),linear-gradient(180deg,#fff 0%,#fbfdff 100%)}
+.hero-title{text-transform:none;color:var(--navy);font-size:clamp(58px,6vw,98px);line-height:.92}
+.hero-title em{color:#168fdb}
+.hero-title strong{color:var(--navy)}
+.hero-lead{color:#53627d}
+.hero-stage{min-height:620px}
+.orbit-one{background:radial-gradient(circle at 35% 35%,rgba(49,174,242,.18),rgba(49,174,242,.03) 64%,transparent 72%)}
+.orbit-two{background:radial-gradient(circle at 50% 50%,rgba(16,26,50,.08),transparent 70%)}
+.hero-window{transform:none;border-radius:24px;border:1px solid rgba(16,26,50,.10);box-shadow:0 34px 100px rgba(16,26,50,.14)}
+.window-bar{background:#f7f9fc}
+.stock-chip{border-color:rgba(16,26,50,.11);box-shadow:0 20px 55px rgba(16,26,50,.12)}
+.new-stock b{color:#168fdb}
+.sync-badge .sync-icon{background:rgba(49,174,242,.12);color:#168fdb}
+.scroll-cue{color:#71809a}
+.pain{background:linear-gradient(150deg,#0d172e 0%,#111f3c 68%,#0d172e 100%)}
+.pain h2{text-transform:none}
+.pain h2 span{color:#57c2ff}
+.pain-note{color:#b9c7dc}
+.channel-card{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.14)}
+.channel-card span,.channel-card small{color:#aebbd0}
+.broken-line i{background:#5d6f8c}
+.broken-line i:nth-child(2){background:var(--orange)}
+.demo-button{border-color:rgba(87,194,255,.52)}
+.demo-button:hover{background:#57c2ff;color:#0d172e}
+.bridge{background:#fff}
+.bridge h2,.offline h2,.product-story h2,.pricing h2,.support h2,.final-cta h2{text-transform:none}
+.bridge h2 em,.offline h2 span,.product-story h2 span,.pricing h2 span,.support h2 span{color:#168fdb}
+.clean-list li{border-color:rgba(16,26,50,.10)}
+.flow-node{border-color:rgba(16,26,50,.12);color:var(--navy)}
+.flow-core{background:var(--navy);box-shadow:0 18px 45px rgba(16,26,50,.22)}
+.flow-track{background:#d9e8f4}
+.flow-track span{background:#31aef2}
+.tn-window{border-color:rgba(16,26,50,.10);box-shadow:0 28px 90px rgba(16,26,50,.10)}
+.offline{background:linear-gradient(135deg,#eef8ff 0%,#f8fcff 58%,#eaf5ff 100%)}
+.offline-content>p:not(.eyebrow){color:#5d6b82}
+.sale-ticket,.queue-card{border-color:rgba(16,26,50,.10);box-shadow:0 25px 70px rgba(16,26,50,.09)}
+.sale-ticket button{background:var(--navy)}
+.queue-progress{background:#dfeaf3}
+.product-story{background:#fff}
+.feature-step span{color:#168fdb}
+.showcase-screen{background:linear-gradient(145deg,#eef8ff,#fff);border:1px solid rgba(16,26,50,.07);border-radius:30px}
+.audience{background:linear-gradient(135deg,#101a32,#162847);color:#fff}
+.audience-title-row span:nth-child(2){color:#57c2ff}
+.audience-foot{color:#c4d1e4}
+.pricing{background:#fff}
+.plan-card{background:#fff;border-color:rgba(16,26,50,.12);box-shadow:0 24px 70px rgba(16,26,50,.055)}
+.plan-card.featured{border:2px solid #31aef2;background:linear-gradient(180deg,#f8fcff,#fff);box-shadow:0 30px 90px rgba(49,174,242,.14)}
+.featured-label,.promo-kicker{color:#087dcc}
+.plan-card li:before{color:#168fdb}
+.support{background:#f2f8fd}
+.support-grid article{border-color:rgba(16,26,50,.09);box-shadow:0 18px 55px rgba(16,26,50,.055)}
+.schedule-icon{background:#eaf6ff;color:#168fdb}
+.phone-icon{background:#fff7ef;color:var(--orange)}
+.final-cta{background:linear-gradient(145deg,#0d172e,#15294b);color:#fff}
+.final-cta .eyebrow{color:#78cdfd}
+.final-cta h2 em{color:#57c2ff}
+.final-subcopy{color:#c2cee0}
+.final-subcopy .tension-phrase{color:#fff}
+.final-cta .solid-button{background:#31aef2;color:#08152b;box-shadow:0 18px 44px rgba(49,174,242,.24)}
+.final-cta .outline-button{border-color:rgba(255,255,255,.5);color:#fff;background:transparent}
+.final-cta small{color:#93a5bf}
+footer{background:#0d172e;color:#9fadc2;border-top-color:rgba(255,255,255,.08)}
+footer a{color:#fff}
+.footer-brand{display:flex;align-items:center;gap:12px;color:#fff;font-size:22px;font-weight:700}
+.footer-mt{width:54px;height:54px;border-radius:12px;object-fit:cover}
+.footer-tn{width:122px;height:42px;object-fit:contain;filter:none;opacity:1;background:#fff;border-radius:10px;padding:6px 10px}
+@media(max-width:1050px){.brand-suite{min-width:auto}.brand-tn{width:155px}.hero{padding-top:145px}}
+@media(max-width:700px){
+  .site-header{height:76px}.brand-suite{gap:9px}.brand-mt{width:42px;height:42px;border-radius:10px}.brand-plus{font-size:20px}.brand-tn{width:112px;height:32px}.menu-button{color:var(--navy)}
+  .hero{padding-top:118px}.hero-title{font-size:55px}.integration-kicker{font-size:9px;padding:8px 11px}.hero-window{border-radius:18px}
+  .audience{padding-top:105px;padding-bottom:105px}.footer-brand{gap:8px}.footer-mt{width:44px;height:44px}.footer-tn{width:110px;height:40px}
+}
+</style>
+
+  <link rel="canonical" href="https://marktrend.com.ar/mt-stock" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://marktrend.com.ar/mt-stock" />
+  <meta property="og:title" content="MT Stock + Tiendanube — Stock y punto de venta" />
+  <meta property="og:description" content="MT Stock es un sistema de stock y punto de venta conectado con Tiendanube. Vendé online y en tu local con el inventario sincronizado." />
+  <meta property="og:image" content="https://marktrend.com.ar/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="MARK-TREND" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MT Stock + Tiendanube — Stock y punto de venta" />
+  <meta name="twitter:description" content="Sistema de stock y punto de venta conectado con Tiendanube." />
+  <meta name="twitter:image" content="https://marktrend.com.ar/images/og-image.png" />
+</head>
+<body>
+<div style="background:#172033;padding:8px clamp(18px,5vw,64px);display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:rgba(255,255,255,.7)">
+    <a href="https://marktrend.com.ar/" style="color:rgba(255,255,255,.85);display:flex;align-items:center;gap:8px">
+      <img src="/images/logo-marktrend.webp" alt="MARK-TREND" style="height:22px;filter:brightness(10)">
+      <span style="opacity:.6">←</span> Volver a MARK-TREND
+    </a>
+    <a href="https://marktrend.com.ar/contacto" style="color:rgba(255,255,255,.6)">Contacto</a>
+  </div>
+
+  <div class="page-noise" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <a href="#top" class="brand-suite" aria-label="MT Stock más Tiendanube, inicio">
+      <img loading="lazy" src="/images/mt-stock/mt-stock-02.webp" alt="MT Stock + POS" class="brand-mt" />
+      <span class="brand-plus" aria-hidden="true">+</span>
+      <img loading="lazy" src="/images/mt-stock/mt-stock-03.webp" alt="Tiendanube" class="brand-tn" />
+    </a>
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      <a href="#problema">El problema</a>
+      <a href="#conexion">Cómo funciona</a>
+      <a href="#producto">El producto</a>
+      <a href="#planes">Planes</a>
+    </nav>
+    <div class="header-actions">
+      <a class="link-button" href="https://mtstock.marktrend.com.ar/login">Ingresar</a>
+      <a class="solid-button small" href="https://mtstock.marktrend.com.ar/registro">Probar 22 días gratis</a>
+    </div>
+    <button class="menu-button" aria-expanded="false" aria-controls="mobile-menu">Menú</button>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <a href="#problema">El problema</a>
+    <a href="#conexion">Cómo funciona</a>
+    <a href="#producto">El producto</a>
+    <a href="#planes">Planes</a>
+  </div>
+
+  <main>
+    <section class="hero scene" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="hero-partners reveal" aria-label="MT Stock conectado con Tiendanube">
+          <span class="integration-kicker"><i aria-hidden="true"></i> MT STOCK + TIENDANUBE</span>
+        </div>
+        <h1 id="hero-title" class="hero-title">
+          <span class="line reveal">Vendiste la</span>
+          <span class="line reveal delay-1"><em>última unidad.</em></span>
+          <span class="line reveal delay-2">Tu tienda online</span>
+          <span class="line reveal delay-3"><strong>todavía la ofrece.</strong></span>
+        </h1>
+        <p class="hero-lead reveal delay-4">MT Stock conecta el local y Tiendanube para que una venta no se transforme en una disculpa.</p>
+        <div class="hero-actions reveal delay-4">
+          <a class="solid-button" href="https://mtstock.marktrend.com.ar/registro">Probar 22 días gratis</a>
+          <a class="text-link" href="#problema">Ver qué pasa al vender <span>↓</span></a>
+        </div>
+      </div>
+
+      <div class="hero-stage" aria-label="Vista del sistema MT Stock">
+        <div class="soft-orbit orbit-one" aria-hidden="true"></div>
+        <div class="soft-orbit orbit-two" aria-hidden="true"></div>
+        <figure class="product-window hero-window reveal-right">
+          <div class="window-bar"><span></span><span></span><span></span><small>mtstock.marktrend.com.ar</small></div>
+          <img loading="lazy" src="/images/mt-stock/mt-stock-04.webp" alt="Pantalla real de productos y stock de MT Stock" />
+        </figure>
+        <div class="stock-chip old-stock" aria-hidden="true"><span>Local</span><b>1</b><small>última unidad</small></div>
+        <div class="stock-chip new-stock" aria-hidden="true"><span>Online</span><b>0</b><small>sincronizado</small></div>
+        <div class="sync-badge" aria-label="sincronización automática"><span class="sync-icon" aria-hidden="true">↻</span><span class="sync-copy"><span class="sync-title">sincronización automática</span><span class="sync-sub">mt stock actualiza por vos</span></span><span class="sync-dot" aria-hidden="true"></span></div>
+      </div>
+
+      <a class="scroll-cue" href="#problema" aria-label="Continuar leyendo"><span></span>Scroll</a>
+    </section>
+
+    <section class="pain scene" id="problema">
+      <div class="pain-sticky">
+        <p class="eyebrow muted">EL PROBLEMA NO ES VENDER EN DOS LUGARES</p>
+        <h2>Es administrar <span>dos verdades distintas.</span></h2>
+        <p class="pain-note">Una en el local. Otra en internet. Y alguien intentando acordarse de actualizar ambas.</p>
+        <div class="divergence" aria-label="Demostración visual de stocks separados">
+          <div class="channel-card local-card">
+            <span>LOCAL</span>
+            <b data-stock-local>8</b>
+            <small>unidades</small>
+          </div>
+          <div class="line-status">
+            <div class="broken-line" id="stock-link"><i></i><i></i><i></i></div>
+            <div class="link-check" id="link-check" aria-hidden="true">
+              <span class="check-icon">✓</span>
+              <span class="check-text">sincronizado</span>
+            </div>
+          </div>
+          <div class="channel-card online-card">
+            <span>TIENDA ONLINE</span>
+            <b data-stock-online>8</b>
+            <small>unidades</small>
+          </div>
+        </div>
+        <button class="demo-button" id="sell-demo">Simular una venta en el local</button>
+        <p class="demo-caption" id="demo-caption">El stock coincide. Por ahora.</p>
+      </div>
+    </section>
+
+    <section class="bridge scene" id="conexion">
+      <div class="bridge-copy">
+        <p class="eyebrow">UNA SOLA OPERACIÓN</p>
+        <h2>Vendés acá.<br><em>Se actualiza allá.</em></h2>
+        <p>La venta se registra primero. MT Stock actualiza Tiendanube después, sin hacer esperar al cliente.</p>
+        <ul class="clean-list">
+          <li>Stock por producto, talle y color</li>
+          <li>Pedidos online descontados en el local</li>
+          <li>Cancelaciones que reponen unidades</li>
+        </ul>
+      </div>
+      <div class="bridge-visual">
+        <div class="flow-row" aria-hidden="true">
+          <div class="flow-node">LOCAL</div>
+          <div class="flow-track"><span></span></div>
+          <div class="flow-core">MT<br>STOCK</div>
+          <div class="flow-track reverse"><span></span></div>
+          <div class="flow-node">TIENDANUBE</div>
+        </div>
+        <figure class="product-window tn-window">
+          <img loading="lazy" src="/images/mt-stock/mt-stock-05.webp" alt="Pantalla real de integración de MT Stock con Tiendanube" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="offline scene" id="offline">
+      <div class="offline-content">
+        <p class="eyebrow">SIN CONEXIÓN</p>
+        <h2>Internet puede cortarse.<br><span>La venta no.</span></h2>
+        <p>La operación queda guardada en el dispositivo y se envía cuando vuelve la conexión.</p>
+        <div class="offline-actions">
+          <button class="solid-button" id="offline-toggle">Simular corte de internet</button>
+          <span class="offline-status" id="offline-status"><i></i> Online</span>
+        </div>
+      </div>
+      <div class="offline-demo" aria-live="polite">
+        <div class="sale-ticket">
+          <small>VENTA #MT-0842</small>
+          <strong>$136.000</strong>
+          <span>4 productos · Efectivo</span>
+          <button>Confirmar venta</button>
+        </div>
+        <div class="queue-card" id="queue-card">
+          <span class="queue-kicker">ESTADO</span>
+          <strong id="queue-title">Sin operaciones pendientes</strong>
+          <p id="queue-text">Todo está sincronizado.</p>
+          <div class="queue-progress"><span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-story scene" id="producto">
+      <div class="product-story-header">
+        <p class="eyebrow muted">una solución nacida de problemas reales</p>
+        <h2>no empezamos por la tecnología.<br><span>empezamos por el problema.</span></h2>
+        <p class="hero-lead" style="max-width:720px;margin-top:24px;">Por eso MT Stock reúne ventas, stock, caja, clientes, vendedores y Tiendanube en un solo lugar.</p>
+      </div>
+      <div class="product-showcase">
+        <div class="showcase-copy">
+          <article class="feature-step active" data-image="home">
+            <span>01</span><h3>Todo el negocio, en un lugar</h3><p>Ventas, caja, stock, clientes, comisiones y Tiendanube desde una sola cuenta.</p>
+          </article>
+          <article class="feature-step" data-image="products">
+            <span>02</span><h3>Producto por producto</h3><p>SKU, stock mínimo, códigos de barras, talle y color.</p>
+          </article>
+          <article class="feature-step" data-image="cash">
+            <span>03</span><h3>Cada vendedor con su caja</h3><p>Aperturas, cierres, arqueos, ingresos y egresos.</p>
+          </article>
+          <article class="feature-step" data-image="mp">
+            <span>04</span><h3>Cobros que no quedan afuera</h3><p>Efectivo, tarjeta, cuenta corriente y Mercado Pago.</p>
+          </article>
+        </div>
+        <figure class="showcase-screen product-window">
+          <img id="showcase-image" src="/images/mt-stock/mt-stock-06.webp" alt="Pantalla real de MT Stock" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="audience scene">
+      <p class="eyebrow">crecer empieza por ordenar.</p>
+      <div class="audience-title" aria-label="Mantené ordenada toda tu operación. No importa el tamaño de tu negocio.">
+        <div class="audience-title-row">
+          <span>mantené ordenada</span>
+          <span>toda tu operación.</span>
+        </div>
+        <div class="audience-title-subrow">no importa el tamaño de tu negocio.</div>
+      </div>
+      <p class="audience-foot">Centralizá el stock, las ventas, las cajas y tu equipo, ya sea que vendas desde un local, una tienda online, con vendedores fuera del negocio o por todos esos canales al mismo tiempo.</p>
+    </section>
+
+    <section class="pricing scene" id="planes">
+      <div class="pricing-intro">
+        <p class="eyebrow">SIN LÍMITES ARTIFICIALES</p>
+        <h2>Elegís por lo que necesitás.<br><span>No por cuánto vendés.</span></h2>
+        <p>Usuarios, productos y ventas sin límite.</p>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-card">
+          <p class="plan-name">BÁSICO</p>
+          <p class="promo-kicker">$20.930 durante los primeros 3 meses</p>
+          <div class="price"><b>$20.930</b><span>/mes</span></div>
+          <p class="promo-secondary">Después $29.900 /mes.</p>
+          <ul>
+            <li>Punto de venta y stock</li>
+            <li>Caja por vendedor</li>
+            <li>Clientes y cuenta corriente</li>
+            <li>Comisiones y reportes</li>
+            <li>Mercado Pago</li>
+            <li>Funcionamiento offline</li>
+          </ul>
+          <a href="https://mtstock.marktrend.com.ar/registro" class="outline-button">Probar 22 días gratis</a>
+        </article>
+        <article class="plan-card featured">
+          <div class="featured-label">CON TIENDANUBE</div>
+          <p class="plan-name">FULL</p>
+          <p class="promo-kicker">$34.930 durante los primeros 3 meses</p>
+          <div class="price"><b>$34.930</b><span>/mes</span></div>
+          <p class="promo-secondary">Después $49.900 /mes.</p>
+          <ul>
+            <li>Todo el plan Básico</li>
+            <li>Talles y colores</li>
+            <li>Importación del catálogo</li>
+            <li>Stock sincronizado en ambos sentidos</li>
+            <li>Visualización de ventas online</li>
+          </ul>
+          <a href="https://mtstock.marktrend.com.ar/registro" class="solid-button">Probar 22 días gratis</a>
+        </article>
+      </div>
+      <p class="trial-note">22 días gratis · Sin medio de pago · Cancelás cuando quieras</p>
+    </section>
+
+    <section class="support scene">
+      <div>
+        <p class="eyebrow muted">cuando necesites soporte.</p>
+        <h2>cuando necesitás ayuda, sabés con quién hablar.<br><span>coordinamos el soporte y trabajamos en la solución con vos.</span></h2>
+      </div>
+      <div class="support-grid">
+        <article>
+          <div class="support-icon phone-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.7 4.5c.3-.7 1-.9 1.7-.7l2 .7c.7.2 1.1 1 .9 1.7l-.7 2.1c-.1.4-.1.8.2 1.1l3.6 3.6c.3.3.7.4 1.1.2l2.1-.7c.7-.2 1.5.2 1.7.9l.7 2c.2.7 0 1.4-.7 1.7l-1.8.8c-1.2.5-2.6.3-3.6-.5a27.2 27.2 0 0 1-8.7-8.7c-.8-1-.9-2.4-.4-3.6l.8-1.8Z" fill="currentColor"/></svg>
+          </div>
+          <strong>Teléfono</strong><span>Asistencia paso a paso.</span>
+        </article>
+        <article>
+          <div class="support-icon zoom-icon" aria-hidden="true">
+            <svg viewBox="0 0 72 24" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="2" width="34" height="20" rx="10" fill="currentColor"/><rect x="36" y="6" width="20" height="12" rx="3" fill="currentColor"/><path d="M56 9l10-5v16l-10-5V9Z" fill="currentColor"/></svg>
+          </div>
+          <strong>Zoom</strong><span>Compartimos pantalla.</span>
+        </article>
+        <article>
+          <div class="support-icon anydesk-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 24" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="5" width="14" height="14" rx="2" transform="rotate(45 0 5)" fill="currentColor"/><rect x="18" y="5" width="14" height="14" rx="2" transform="rotate(45 18 5)" fill="currentColor" opacity=".82"/><path d="M44 8h18v8H44z" fill="currentColor" opacity=".001"/></svg>
+          </div>
+          <strong>AnyDesk</strong><span>Configuración remota.</span>
+        </article>
+        <article>
+          <div class="support-icon schedule-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="15" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.8v3M16 3.8v3M4 9h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="14" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 12.7v1.7l1.2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <strong>Lun a vie · 10 a 17</strong><span>Primera respuesta en hasta 4 horas.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="final-cta scene" id="final">
+      <p class="eyebrow">MT STOCK</p>
+      <h2>si una venta termina en<br><em>disculpas por el stock,</em></h2>
+      <p class="final-subcopy">el problema ya no es una venta: <span class="tension-phrase">es toda tu operación.</span></p>
+      <div class="final-actions">
+        <a class="solid-button large" href="https://mtstock.marktrend.com.ar/registro">Probar 22 días gratis</a>
+        <a class="outline-button large" href="https://wa.me/5491123729361?text=Hola%2C%20quiero%20coordinar%20una%20demo%20de%20MT%20Stock.%0AMi%20negocio%20se%20llama%3A%20____%0AActualmente%20vendo%20desde%3A%20____" target="_blank" rel="noopener">Coordinar una demo</a>
+      </div>
+      <small>Comprobante interno no fiscal. MT Stock no realiza facturación electrónica ARCA.</small>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand" aria-label="MT Stock más Tiendanube">
+      <img loading="lazy" src="/images/mt-stock/mt-stock-02.webp" alt="MT Stock + POS" class="footer-mt" />
+      <span aria-hidden="true">+</span>
+      <img loading="lazy" src="/images/mt-stock/mt-stock-03.webp" alt="Tiendanube" class="footer-tn" />
+    </div>
+    <span>MT Stock · Stock y punto de venta conectado con Tiendanube.</span>
+    <a href="#top">Volver arriba ↑</a>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.4)">
+      Un producto de <a href="https://marktrend.com.ar/" style="color:rgba(255,255,255,.6)">MARK-TREND</a> · Tecnología pensada desde el comercio real.
+    </div>
+  </footer>
+  <script>
+const sellButton = document.getElementById('sell-demo');
+const localStock = document.querySelector('[data-stock-local]');
+const onlineStock = document.querySelector('[data-stock-online]');
+const demoCaption = document.getElementById('demo-caption');
+const stockLink = document.getElementById('stock-link');
+const linkCheck = document.getElementById('link-check');
+let demoStep = 0;
+
+function resetPainDemo(){
+  localStock.textContent = '8';
+  onlineStock.textContent = '8';
+  demoCaption.textContent = 'El stock coincide. Por ahora.';
+  demoCaption.style.color = '';
+  sellButton.textContent = 'Simular una venta en el local';
+  stockLink?.classList.remove('connected');
+  linkCheck?.classList.remove('visible');
+  demoStep = 0;
+}
+
+sellButton?.addEventListener('click', () => {
+  if (demoStep === 0) {
+    localStock.textContent = '7';
+    onlineStock.textContent = '8';
+    demoCaption.textContent = 'El local cambió. La tienda online todavía muestra 8.';
+    demoCaption.style.color = '#f29b72';
+    sellButton.textContent = 'Conectar con MT Stock';
+    stockLink?.classList.remove('connected');
+    linkCheck?.classList.remove('visible');
+    demoStep = 1;
+    return;
+  }
+
+  if (demoStep === 1) {
+    onlineStock.textContent = '7';
+    stockLink?.classList.add('connected');
+    linkCheck?.classList.add('visible');
+    demoCaption.textContent = 'Con MT Stock, el flujo se ordena y ambos canales quedan sincronizados.';
+    demoCaption.style.color = '#8fd3a7';
+    sellButton.textContent = 'Reiniciar demostración';
+    demoStep = 2;
+    return;
+  }
+
+  resetPainDemo();
+});
+
+const offlineToggle = document.getElementById('offline-toggle');
+const offlineStatus = document.getElementById('offline-status');
+const queueCard = document.getElementById('queue-card');
+const queueTitle = document.getElementById('queue-title');
+const queueText = document.getElementById('queue-text');
+let offline = false;
+
+offlineToggle?.addEventListener('click', () => {
+  offline = !offline;
+  if (offline) {
+    offlineToggle.textContent = 'Recuperar conexión';
+    offlineStatus.classList.add('off');
+    offlineStatus.innerHTML = '<i></i> Sin conexión';
+    queueCard.classList.add('pending');
+    queueTitle.textContent = '1 venta pendiente';
+    queueText.textContent = 'Guardada de forma segura en este dispositivo.';
+  } else {
+    offlineToggle.textContent = 'Simulando sincronización…';
+    queueTitle.textContent = 'Enviando venta';
+    queueText.textContent = 'La conexión volvió. MT Stock está sincronizando.';
+    setTimeout(() => {
+      offlineToggle.textContent = 'Simular corte de internet';
+      offlineStatus.classList.remove('off');
+      offlineStatus.innerHTML = '<i></i> Online';
+      queueCard.classList.remove('pending');
+      queueTitle.textContent = 'Venta sincronizada';
+      queueText.textContent = 'La operación ya forma parte del stock central.';
+      offline = false;
+    }, 1500);
+  }
+});
+
+const images = {
+  home: '/images/mt-stock/mt-stock-09.webp',
+  products: '/images/mt-stock/mt-stock-10.webp',
+  cash: '/images/mt-stock/mt-stock-11.webp',
+  mp: '/images/mt-stock/mt-stock-12.webp'
+};
+const showcaseImage = document.getElementById('showcase-image');
+document.querySelectorAll('.feature-step').forEach(step => {
+  step.addEventListener('mouseenter', () => activateStep(step));
+  step.addEventListener('click', () => activateStep(step));
+});
+function activateStep(step){
+  document.querySelectorAll('.feature-step').forEach(s => s.classList.remove('active'));
+  step.classList.add('active');
+  showcaseImage.style.opacity = '0';
+  showcaseImage.style.transform = 'scale(.985)';
+  setTimeout(() => {
+    showcaseImage.src = images[step.dataset.image];
+    showcaseImage.style.opacity = '1';
+    showcaseImage.style.transform = 'scale(1)';
+  }, 180);
+}
+
+const menuButton = document.querySelector('.menu-button');
+const mobileMenu = document.getElementById('mobile-menu');
+menuButton?.addEventListener('click', () => {
+  const expanded = menuButton.getAttribute('aria-expanded') === 'true';
+  menuButton.setAttribute('aria-expanded', String(!expanded));
+  mobileMenu.hidden = expanded;
+});
+mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mobileMenu.hidden = true;
+  menuButton.setAttribute('aria-expanded','false');
+}));
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('in-view');
+  });
+},{threshold:.15});
+document.querySelectorAll('.scene').forEach(s => observer.observe(s));
+
+</script>
+</body>
+</html>
